@@ -67,7 +67,7 @@ const roadmapSteps = [
   {
     date: "WEN ?",
     title: "[Done] Going Mainnet",
-    description: "Déploiement du jeton sur le mainnet\nDéploiement des pools de liquidité\nAnnonce de partenariats\n"
+    description: "Token deployment on the mainnet\nDeployment of liquidity pools\nAnnouncement of partnerships not authorized"
   },
   {
     date: "WEN ?",
