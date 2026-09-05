@@ -500,7 +500,7 @@ export const useWallet = (): WalletHook => {
 
       // Convert the amount to wei (18 decimals)
       const amountInWei = (parseFloat(sanitizedAmount) * Math.pow(10, 18)).toString(16);
-      const paddedAmount = '0x' + amountInWei.padStart(64, '0');
+      const paddedAmount = amountInWei.padStart(64, '0');
 
       // Token contract address based on network
       const tokenAddress = isMainnet
@@ -509,7 +509,7 @@ export const useWallet = (): WalletHook => {
 
       // Transfer function signature (transfer(address,uint256))
       const transferSignature = '0xa9059cbb';
-      const paddedToAddress = '0x' + sanitizedAddress.slice(2).padStart(64, '0');
+      const paddedToAddress = sanitizedAddress.slice(2).padStart(64, '0');
 
       // Transaction data
       const data = transferSignature + paddedToAddress + paddedAmount;

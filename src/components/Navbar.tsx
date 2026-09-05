@@ -31,10 +31,10 @@ const pages = [
 
 const Navbar = () => {
   const [anchorElNav, setAnchorElNav] = useState<null | HTMLElement>(null);
-  const { 
-    isConnected, 
-    address, 
-    connectWallet, 
+  const {
+    isConnected,
+    address,
+    connectWallet,
     disconnectWallet,
     isLoading,
   } = useWalletContext();
@@ -59,7 +59,6 @@ const Navbar = () => {
   const handleNavClick = (href: string) => {
     handleCloseNavMenu();
     if (href === '/') {
-      // Si on clique sur Home depuis la page d'accueil, remonter en haut
       window.scrollTo({
         top: 0,
         behavior: 'smooth'
@@ -67,10 +66,10 @@ const Navbar = () => {
     } else if (href.startsWith('/#')) {
       const element = document.querySelector(href.substring(1));
       if (element) {
-        const navbarHeight = 80; // Hauteur approximative de la navbar
+        const navbarHeight = 80; 
         const elementPosition = element.getBoundingClientRect().top + window.pageYOffset;
         const offsetPosition = elementPosition - navbarHeight;
-        
+
         window.scrollTo({
           top: offsetPosition,
           behavior: 'smooth'
@@ -80,13 +79,23 @@ const Navbar = () => {
   };
 
   return (
-    <AppBar 
-      position="fixed" 
-      color="default" 
+    <AppBar
+      position="fixed"
+      color="default"
       elevation={1}
       sx={{
-        borderRadius: 0,
+        top: '1%',
+        left: 0,
+        right: 0,
+        mx: 'auto',
+        width: '75%',
+        borderRadius: '9999px',
         border: 'none',
+        overflow: 'hidden',
+        justifyContent: 'center',
+        backdropFilter: 'blur(20px)',
+        backgroundColor: 'rgba(255, 255, 255, 0.08)',
+        WebkitBackdropFilter: 'blur(20px)',
         '& .MuiAppBar-root': {
           borderRadius: 0,
           border: 'none',
@@ -167,8 +176,8 @@ const Navbar = () => {
               }}
             >
               {pages.map((page) => (
-                <MenuItem 
-                  key={page.name} 
+                <MenuItem
+                  key={page.name}
                   component={RouterLink}
                   to={page.href}
                   onClick={() => handleNavClick(page.href)}
@@ -226,10 +235,10 @@ const Navbar = () => {
 
           {/* Theme Toggle Button */}
           <Box sx={{ display: 'flex', alignItems: 'center', mr: 2 }}>
-            <IconButton 
-              onClick={toggleTheme} 
+            <IconButton
+              onClick={toggleTheme}
               color="inherit"
-              sx={{ 
+              sx={{
                 borderRadius: '50%',
                 '&:hover': {
                   backgroundColor: 'rgba(0, 0, 0, 0.04)',
@@ -250,6 +259,7 @@ const Navbar = () => {
               sx={{
                 backgroundColor: isConnected ? 'success.main' : 'primary.main',
                 color: 'white',
+                borderRadius: 90,
                 '&:hover': {
                   backgroundColor: isConnected ? 'success.dark' : 'primary.dark',
                 },
@@ -266,4 +276,4 @@ const Navbar = () => {
   );
 };
 
-export default Navbar; 
+export default Navbar;
