@@ -147,7 +147,6 @@ function AssetCard({
   icon,
   label,
   chipLabel,
-  chipColor,
   value,
   accentColor,
   caption
@@ -484,14 +483,12 @@ export default function AccountPage() {
                 <AssetCard
                   icon={<CurrencyBitcoinIcon fontSize="small" />}
                   label="$HAIR Balance"
-                  chipLabel="Hemi Mainnet"
                   value={`${formatNumber(balances.hairMainnet)} HAIR`}
                   accentColor="#FF6B35"
                 />
                 <AssetCard
                   icon={<BoltIcon fontSize="small" />}
                   label="$HAIRPOINTS Balance"
-                  chipLabel="Hemi Sepolia Testnet"
                   value={`${formatNumber(balances.hairTestnet)} HAIR`}
                   accentColor="#4DABF7"
                 />

@@ -55,6 +55,7 @@ interface WalletHook {
   connectWallet: () => Promise<boolean>;
   disconnectWallet: () => void;
   switchToHemiNetwork: () => Promise<boolean>;
+  addTokenToWallet: (isMainnet?: boolean) => Promise<boolean>;
   refreshBalances: () => Promise<void>;
   clearError: () => void;
   transactions: Transaction[];
@@ -64,12 +65,13 @@ interface WalletHook {
   isSwitchingNetwork: boolean;
   sendTokens: (toAddress: string, amount: string, isMainnet: boolean) => Promise<boolean>;
   isSendingTokens: boolean;
+  isAddingToken: boolean;
 }
 
 declare global {
   interface Window {
     ethereum?: {
-      request: (args: { method: string; params?: unknown[] }) => Promise<unknown>;
+      request: (args: { method: string; params?: unknown }) => Promise<unknown>;
       on: (event: string, callback: (args: unknown) => void) => void;
       removeListener: (event: string, callback: (args: unknown) => void) => void;
     };
@@ -94,6 +96,7 @@ export const useWallet = (): WalletHook => {
   const [isLoadingTransactions, setIsLoadingTransactions] = useState<boolean>(false);
   const [isSwitchingNetwork, setIsSwitchingNetwork] = useState<boolean>(false);
   const [isSendingTokens, setIsSendingTokens] = useState<boolean>(false);
+  const [isAddingToken, setIsAddingToken] = useState<boolean>(false);
 
   const isMetaMaskInstalled = useCallback((): boolean => {
     return typeof window !== 'undefined' && typeof window.ethereum !== 'undefined';
@@ -316,6 +319,48 @@ export const useWallet = (): WalletHook => {
       setIsSwitchingNetwork(false);
     }
   }, [isMetaMaskInstalled, isSwitchingNetwork]);
+
+  const addTokenToWallet = useCallback(async (isMainnet: boolean = true): Promise<boolean> => {
+    if (!isMetaMaskInstalled()) {
+      setError(ERROR_MESSAGES.WALLET_NOT_FOUND);
+      return false;
+    }
+
+    if (isAddingToken) {
+      console.log('Ajout du token déjà en cours...');
+      return false;
+    }
+
+    try {
+      setIsAddingToken(true);
+      setError('');
+
+      const tokenAddress = isMainnet ? HAIR_TOKEN_MAINNET : HAIR_TOKEN_TESTNET;
+
+      const wasAdded = await window.ethereum?.request({
+        method: 'wallet_watchAsset',
+        params: {
+          type: 'ERC20',
+          options: {
+            address: tokenAddress,
+            symbol: 'HAIR',
+            decimals: 18,
+          },
+        },
+      });
+
+      return Boolean(wasAdded);
+    } catch (err: unknown) {
+      const error = err as { code: number; message?: string };
+      console.error('Erreur lors de l\'ajout du token au wallet:', error);
+      if (error.code !== 4001) {
+        setError('Impossible d\'ajouter le token $HAIR au wallet.');
+      }
+      return false;
+    } finally {
+      setIsAddingToken(false);
+    }
+  }, [isMetaMaskInstalled, isAddingToken]);
 
   // Fonction pour récupérer les transactions on-chain
   const fetchTransactions = useCallback(async (address: string, isMainnet: boolean = true) => {
@@ -624,6 +669,7 @@ export const useWallet = (): WalletHook => {
     connectWallet,
     disconnectWallet,
     switchToHemiNetwork,
+    addTokenToWallet,
     refreshBalances,
     clearError,
     transactions,
@@ -632,6 +678,7 @@ export const useWallet = (): WalletHook => {
     fetchTransactionsByNetwork,
     isSwitchingNetwork,
     sendTokens,
-    isSendingTokens
+    isSendingTokens,
+    isAddingToken
   };
 };
