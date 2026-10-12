@@ -55,7 +55,7 @@ const quotes = [
 
 const roadmapSteps = [
   {
-    date: "WEN ?",
+    date: "WEN?",
     title: "[Done] The Birth of the Project",
     description: "A spontaneous joke about Maxwell Sanchez's silky hair during a Midweek with Max AMA triggered an unexpected surge of excitement. The idea of $HAIR Token emerged — from meme to movement."
   },
@@ -67,7 +67,7 @@ const roadmapSteps = [
   {
     date: "WEN ?",
     title: "[Done] Going Mainnet",
-    description: "Token deployment on the mainnet\nDeployment of liquidity pools\nAnnouncement of partnerships not authorized"
+    description: "Déploiement du jeton sur le mainnet\nDéploiement des pools de liquidité\nAnnonce de partenariats\n"
   },
   {
     date: "WEN ?",
@@ -1033,7 +1033,7 @@ const HomePage = () => {
 
               {/* Discord Button */}
               <Link 
-                href="https://discord.gg/xeeVpy7Whk" 
+                href="https://discord.gg/hairmaxtoken" 
                 target="_blank" 
                 rel="noopener noreferrer"
                 sx={{ textDecoration: 'none' }}
@@ -1250,7 +1250,7 @@ const HomePage = () => {
                   Twitter / X
                 </Link>
                 <Link 
-                  href="https://discord.gg/xeeVpy7Whk" 
+                  href="https://discord.gg/cjZNVzxSMd" 
                   target="_blank" 
                   rel="noopener noreferrer"
                   sx={{ color: 'text.secondary', textDecoration: 'none', '&:hover': { color: 'primary.main' } }}
