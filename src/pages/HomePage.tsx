@@ -55,7 +55,7 @@ const quotes = [
 
 const roadmapSteps = [
   {
-    date: "WEN ?",
+    date: "WEN?",
     title: "[Done] The Birth of the Project",
     description: "A spontaneous joke about Maxwell Sanchez's silky hair during a Midweek with Max AMA triggered an unexpected surge of excitement. The idea of $HAIR Token emerged — from meme to movement."
   },
