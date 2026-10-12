@@ -67,7 +67,7 @@ const roadmapSteps = [
   {
     date: "WEN ?",
     title: "[Done] Going Mainnet",
-    description: "Déploiement du jeton sur le mainnet\nDéploiement des pools de liquidité\nAnnonce de partenariats\n"
+    description: "Token deployment on the mainnet\nDeployment of liquidity pools\nAnnouncement of partnerships not authorized"
   },
   {
     date: "WEN ?",
@@ -1033,7 +1033,7 @@ const HomePage = () => {
 
               {/* Discord Button */}
               <Link 
-                href="https://discord.gg/hairmaxtoken" 
+                href="https://discord.gg/xeeVpy7Whk" 
                 target="_blank" 
                 rel="noopener noreferrer"
                 sx={{ textDecoration: 'none' }}
@@ -1250,7 +1250,11 @@ const HomePage = () => {
                   Twitter / X
                 </Link>
                 <Link 
+<<<<<<< HEAD
                   href="https://discord.gg/cjZNVzxSMd" 
+=======
+                  href="https://discord.gg/xeeVpy7Whk" 
+>>>>>>> 126ded7b6c59aa3e503a76a3fd3694b8f971c721
                   target="_blank" 
                   rel="noopener noreferrer"
                   sx={{ color: 'text.secondary', textDecoration: 'none', '&:hover': { color: 'primary.main' } }}

@@ -13,14 +13,12 @@ import {
   Tooltip,
 } from '@mui/material';
 import MenuIcon from '@mui/icons-material/Menu';
-import AccountBalanceWalletIcon from '@mui/icons-material/AccountBalanceWallet';
 import Brightness4Icon from '@mui/icons-material/Brightness4';
 import Brightness7Icon from '@mui/icons-material/Brightness7';
-import SportsEsportsIcon from '@mui/icons-material/SportsEsports';
-import useWalletContext from '../contexts/WalletContext';
 import { useThemeContext } from '../contexts/ThemeContext';
-import { formatAddress } from '../lib/utils';
 import hairLogo from '../assets/logo_hair_no_bg.png';
+import hairLogoJpeg from '../assets/logo.jpeg';
+import { ConnectButton } from '@rainbow-me/rainbowkit';
 
 const pages = [
   { name: 'Home', href: '/' },
@@ -39,13 +37,6 @@ const gradientKeyframes = {
 
 const Navbar = () => {
   const [anchorElNav, setAnchorElNav] = useState<null | HTMLElement>(null);
-  const {
-    isConnected,
-    address,
-    connectWallet,
-    disconnectWallet,
-    isLoading,
-  } = useWalletContext();
   const { mode, toggleTheme } = useThemeContext();
 
   const handleOpenNavMenu = (event: React.MouseEvent<HTMLElement>) => {
@@ -54,14 +45,6 @@ const Navbar = () => {
 
   const handleCloseNavMenu = () => {
     setAnchorElNav(null);
-  };
-
-  const handleWalletAction = async () => {
-    if (isConnected) {
-      disconnectWallet();
-    } else {
-      await connectWallet();
-    }
   };
 
   const handleNavClick = (href: string) => {
@@ -193,48 +176,46 @@ const Navbar = () => {
                   <Typography textAlign="center">{page.name}</Typography>
                 </MenuItem>
               ))}
-              <MenuItem
-                component="a"
-                href="https://game.hairtoken.xyz/"
-                target="_blank"
-                rel="noopener noreferrer"
-                onClick={handleCloseNavMenu}
+              {/* Theme Toggle in Mobile Menu */}
+              <MenuItem 
+                onClick={toggleTheme}
                 sx={{
-                  background: 'linear-gradient(270deg, #FF6B35, #FF8C42, #FFB74D, #FF6B35)',
-                  backgroundSize: '300% 300%',
-                  animation: 'navGradientMove 4s ease infinite',
-                  '@keyframes navGradientMove': gradientKeyframes,
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  gap: 1,
                 }}
               >
-                <SportsEsportsIcon sx={{ color: 'white', mr: 1 }} />
-                <Typography textAlign="center" sx={{ color: 'white', fontWeight: 700 }}>
-                  HairGames · Blockchain Gaming
+                {mode === 'dark' ? <Brightness7Icon /> : <Brightness4Icon />}
+                <Typography textAlign="center">
+                  {mode === 'dark' ? 'Light Mode' : 'Dark Mode'}
                 </Typography>
               </MenuItem>
             </Menu>
           </Box>
 
           {/* Logo - Mobile */}
-          <Typography
-            variant="h5"
-            noWrap
-            component={RouterLink}
-            to="/"
-            sx={{
-              mr: 2,
-              display: { xs: 'flex', md: 'none' },
-              flexGrow: 1,
-              fontWeight: 700,
-              color: 'inherit',
-              textDecoration: 'none',
-            }}
-          >
-            <img
-              src={hairLogo}
-              alt="Logo"
-              style={{ height: '42px', width: 'auto' }}
-            />
-          </Typography>
+          <Box sx={{ display: { xs: 'flex', md: 'none' } }}>
+            <Typography
+              variant="h5"
+              noWrap
+              component={RouterLink}
+              to="/"
+              sx={{
+                mr: 2,
+                display: { xs: 'flex', md: 'none' },
+                flexGrow: 1,
+                color: 'inherit',
+                textDecoration: 'none',
+              }}
+            >
+              <img
+                src={hairLogoJpeg}
+                alt="Logo"
+                style={{ height: '38px', width: 'auto', zIndex: 1000 }}
+              />
+            </Typography>
+          </Box>
 
           {/* Desktop Navigation */}
           <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' }, justifyContent: 'center' }}>
@@ -272,41 +253,10 @@ const Navbar = () => {
             ))}
           </Box>
 
-          {/* Theme Toggle + HairGames + Connect Wallet */}
-          <Box sx={{ display: 'flex', alignItems: 'center', gap: 2 }}>
-            <Tooltip title="Blockchain Gaming">
-              <Button
-                component="a"
-                href="https://game.hairtoken.xyz/"
-                target="_blank"
-                rel="noopener noreferrer"
-                startIcon={<SportsEsportsIcon sx={{ fontSize: 18 }} />}
-                sx={{
-                  display: { xs: 'none', sm: 'flex' },
-                  px: 2,
-                  py: 0.5,
-                  borderRadius: 999,
-                  color: 'white',
-                  fontWeight: 700,
-                  textTransform: 'none',
-                  background: 'linear-gradient(270deg, #FF6B35, #FF8C42, #FFB74D, #FF6B35)',
-                  backgroundSize: '300% 300%',
-                  animation: 'navGradientMove 4s ease infinite',
-                  boxShadow: '0 0 12px rgba(255, 107, 53, 0.5)',
-                  transition: 'transform 0.2s ease, box-shadow 0.2s ease',
-                  '&:hover': {
-                    transform: 'scale(1.05)',
-                    boxShadow: '0 0 20px rgba(255, 107, 53, 0.7)',
-                  },
-                  '@keyframes navGradientMove': gradientKeyframes,
-                }}
-              >
-                HairGames
-              </Button>
-            </Tooltip>
-
-            <IconButton
-              onClick={toggleTheme}
+          {/* Theme Toggle Button - Desktop Only */}
+          <Box sx={{ display: { xs: 'none', md: 'flex' }, alignItems: 'center', mr: 2 }}>
+            <IconButton 
+              onClick={toggleTheme} 
               color="inherit"
               sx={{
                 borderRadius: '50%',
@@ -319,24 +269,16 @@ const Navbar = () => {
               {mode === 'dark' ? <Brightness7Icon /> : <Brightness4Icon />}
             </IconButton>
 
-            <Button
-              variant="contained"
-              startIcon={<AccountBalanceWalletIcon />}
-              onClick={handleWalletAction}
-              disabled={isLoading}
-              sx={{
-                backgroundColor: isConnected ? 'success.main' : 'primary.main',
-                color: 'white',
-                borderRadius: 90,
-                '&:hover': {
-                  backgroundColor: isConnected ? 'success.dark' : 'primary.dark',
-                },
-                px: 3,
-                py: 1,
-              }}
-            >
-              {isLoading ? 'Connecting...' : isConnected ? formatAddress(address) : 'Connect Wallet'}
-            </Button>
+          {/* Custom RainbowKit Connect Button */}
+          <Box sx={{ maxHeight: '32px', display: 'flex', alignItems: 'center' }}>
+              <ConnectButton
+                chainStatus="icon"
+                showBalance={false}
+                accountStatus={{
+                  smallScreen: 'avatar',
+                  largeScreen: 'full',
+                }}
+              />
           </Box>
         </Toolbar>
       </Container>
